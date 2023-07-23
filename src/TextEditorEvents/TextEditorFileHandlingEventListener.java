@@ -2,7 +2,7 @@ package TextEditorEvents;
 
 import TextEditorFileHandling.TextEditorFileHandling;
 
-public interface TextEditorFileHandlingEvent {
+public interface TextEditorFileHandlingEventListener {
 
     void beforeTextChange(TextEditorFileHandling event);
 
@@ -12,5 +12,5 @@ public interface TextEditorFileHandlingEvent {
 
     void onFileOpen(TextEditorFileHandling event);
 
-    void onFileChoose(TextEditorFileHandling event);
+    void onFileLoad(TextEditorFileHandling event);
 }

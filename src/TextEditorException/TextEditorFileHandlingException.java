@@ -1,7 +1,11 @@
 package TextEditorException;
 
-public class TextEditorFileHandlingException extends Exception {
-    public TextEditorFileHandlingException(String stringCause) {
-        super(stringCause);
+public class TextEditorFileHandlingException {
+
+    public static class UnknownFileExtensioException extends Exception {
+        public UnknownFileExtensioException(String stringCause) {
+            super(stringCause);
+        }
     }
+
 }

@@ -14,7 +14,7 @@ public class TextEditorStatusBar extends JPanel {
 	final JLabel textEditorLineInto = new JLabel("Ln 1, Col 1");
 	final JLabel textEditorZoomPercentage = new JLabel("100%");
 	final JLabel textEditorTemp = new JLabel("Window (CRLF)");
-	final JLabel textEditorCharset = new JLabel("UTF-8");
+	final JLabel textEditorCharset = new JLabel("UTF8");
 
 	final String textEditorStatusBarFontName = "Calibri";
 	final int textEditorStatusBarFontStyle = Font.BOLD;

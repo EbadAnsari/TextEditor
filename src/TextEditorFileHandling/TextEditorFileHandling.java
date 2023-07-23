@@ -1,13 +1,14 @@
 package TextEditorFileHandling;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
-
+import java.io.InputStreamReader;
 import java.util.Scanner;
-
+import java.util.regex.Pattern;
 import java.awt.Frame;
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
@@ -16,8 +17,8 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.FileDialog;
 
-import TextEditorEvents.TextEditorFileHandlingEvent;
-import TextEditorException.TextEditorFileHandlingException;
+import TextEditorEvents.TextEditorFileHandlingEventListener;
+import TextEditorException.TextEditorFileHandlingException.UnknownFileExtensioException;
 
 public class TextEditorFileHandling {
 
@@ -25,6 +26,14 @@ public class TextEditorFileHandling {
 	String fileNameForDisplay = "Untitled";
 	String fileNameWithFullPath = "";
 	boolean isSaved = true;
+	String charSet = "";
+
+	/**
+	 * @return the charSet
+	 */
+	public String getCharSet() {
+		return charSet;
+	}
 
 	public String getTextFromClipBoard() throws HeadlessException, UnsupportedFlavorException, IOException {
 		return (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
@@ -33,6 +42,10 @@ public class TextEditorFileHandling {
 	public void setTextToClipBoard(String textToClipBoard) {
 		StringSelection stringToInsert = new StringSelection(textToClipBoard);
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringToInsert, stringToInsert);
+	}
+
+	String getCharSet(File file) throws FileNotFoundException {
+		return new InputStreamReader(new FileInputStream(file)).getEncoding();
 	}
 
 	/**
@@ -57,12 +70,12 @@ public class TextEditorFileHandling {
 		}
 	};
 
-	String extension(String file) throws TextEditorFileHandlingException {
+	String extension(String file) throws UnknownFileExtensioException {
 		int index = file.lastIndexOf(".");
 		if (index > 0) {
 			return file.substring(index + 1);
 		}
-		throw new TextEditorFileHandlingException("File name does not contain extension.");
+		throw new UnknownFileExtensioException("File name does not contain extension.");
 	}
 
 	long sizeInMegaBytes(File file) {
@@ -83,7 +96,7 @@ public class TextEditorFileHandling {
 		return fileNameForDisplay;
 	}
 
-	TextEditorFileHandlingEvent event = new TextEditorFileHandlingEvent() {
+	TextEditorFileHandlingEventListener event = new TextEditorFileHandlingEventListener() {
 
 		@Override
 		public void beforeTextChange(TextEditorFileHandling event) {
@@ -109,7 +122,7 @@ public class TextEditorFileHandling {
 		}
 
 		@Override
-		public void onFileChoose(TextEditorFileHandling event) {
+		public void onFileLoad(TextEditorFileHandling event) {
 			isSaved = true;
 			// Method is only for initialization of the `event` object.
 		}
@@ -142,12 +155,14 @@ public class TextEditorFileHandling {
 	public void open() throws FileNotFoundException {
 		File fileReader = openFileDialog();
 
+		if (fileReader == null)
+			throw new FileNotFoundException();
+
 		if (sizeInMegaBytes(fileReader) > 20) {
 			return;
 		}
 
-		if (fileReader == null)
-			throw new FileNotFoundException();
+		charSet = getCharSet(fileReader);
 
 		Scanner fileReadScanner;
 		try {
@@ -158,7 +173,9 @@ public class TextEditorFileHandling {
 				this.fileNameWithFullPath = fileReader.getAbsolutePath();
 				this.fileNameForDisplay = fileReader.getName();
 			}
-			this.event.onFileChoose(this);
+			// System.out.println(Pattern.compile("\r\n").matcher(this.textEditorFileText.toString()));
+			isSaved = true;
+			this.event.onFileLoad(this);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -182,12 +199,12 @@ public class TextEditorFileHandling {
 		this.writeInFile(fileReader);
 	}
 
-	public void addEvent(TextEditorFileHandlingEvent event) {
+	public void addEvent(TextEditorFileHandlingEventListener event) {
 		this.event = event;
 	}
 
 	public void removeEvent() {
-		this.event = new TextEditorFileHandlingEvent() {
+		this.event = new TextEditorFileHandlingEventListener() {
 			@Override
 			public void beforeTextChange(TextEditorFileHandling event) {
 				// Method is only for initialization of the `event` object.
@@ -209,7 +226,7 @@ public class TextEditorFileHandling {
 			}
 
 			@Override
-			public void onFileChoose(TextEditorFileHandling event) {
+			public void onFileLoad(TextEditorFileHandling event) {
 				// Method is only for initialization of the `event` object.
 			}
 		};

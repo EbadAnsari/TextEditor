@@ -3,8 +3,7 @@ package TextEditorUI;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -13,11 +12,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
-import TextEditorClasses.MenuItem;
+import TextEditorClasses.MenuBar.MenuItem;
+import TextEditorClasses.MenuBar.Menu;
 
 public class TextEditorMenuBar extends JMenuBar {
 
-	public ArrayList<JMenu> menuList = new ArrayList<JMenu>();
+	ArrayList<JMenu> menuList = new ArrayList<>();
 
 	public TextEditorMenuBar() {
 		this.setPreferredSize(new Dimension(0, 43));
@@ -25,17 +25,18 @@ public class TextEditorMenuBar extends JMenuBar {
 		this.setBackground(new Color(243, 243, 243));
 	}
 
-	public JMenuItem createMenuItem(String menuItemText, KeyStroke keyStroke, ActionListener l) {
-		JMenuItem menuItem = new JMenuItem(menuItemText);
+	public JMenuItem createMenuItem(MenuItem item) {
+		JMenuItem menuItem = new JMenuItem(item.getItemText());
 		menuItem.setPreferredSize(new Dimension(200, 33));
 		menuItem.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
 		menuItem.setBackground(new Color(243, 243, 243));
-		menuItem.setAccelerator(keyStroke);
-		menuItem.addActionListener(l);
+		menuItem.setAccelerator(item.getKeyStroke());
+		menuItem.setMnemonic(item.getMnemonic());
+		menuItem.addActionListener(item.l);
 		return menuItem;
 	}
 
-	public void addMenuItems(String menuItemFor, MenuItem menuItem) {
+	public void addMenuItems(String menuItemFor, MenuItem item) {
 		int currentMenuIndex = -1;
 
 		for (int i = 0; i < menuList.size(); i++) {
@@ -46,18 +47,21 @@ public class TextEditorMenuBar extends JMenuBar {
 		if (currentMenuIndex == -1)
 			return;
 
-		menuList.get(currentMenuIndex).add(createMenuItem(menuItem.getItemText(),
-				menuItem.getKeyStroke(), menuItem.l));
+		menuList.get(currentMenuIndex).add(createMenuItem(item));
 	}
 
-	public void addMenus(String... menusArray) {
-		for (String menuText : menusArray) {
+	public void addMenus(Menu... menusArray) {
+		for (Menu menu : menusArray) {
+			final String menuText = menu.getMenuText();
+			final int mnemonic = menu.getMnemonic();
+
 			menuList.add(new JMenu(menuText));
 			menuList.get(menuList.size() - 1)
 					.setBorder(BorderFactory.createMatteBorder(0, 15, 1, 15, new Color(230, 230, 230, 0)));
 			menuList.get(menuList.size() - 1).setFocusPainted(false);
 			menuList.get(menuList.size() - 1).setPreferredSize(new Dimension(60, 10));
 			menuList.get(menuList.size() - 1).setForeground(new Color(92, 92, 92));
+			menuList.get(menuList.size() - 1).setMnemonic(mnemonic);
 			// menuList.get(menuList.size() - 1).addMouseListener(new MouseAdapter() {
 			// @Override
 			// public void mouseEntered(MouseEvent e) {

@@ -74,19 +74,19 @@ public class TextEditorTextArea extends JTextArea {
 		return fontSize;
 	}
 
-	void defaultFontSize() {
+	public void defaultFontSize() {
 		this.setFont(new Font("Calibri", 0, baseFontSize));
 		this.event.onZoom(baseFontSize * 100 / baseFontSize);
 		isDefaultFontSize = true;
 		fontSizeInPercentage = 100;
 	}
 
-	void incrementFontSize() {
+	public void incrementFontSize() {
 		int currentFontSize = changeFontSize(1);
 		fontSizeInPercentage = currentFontSize * 100 / baseFontSize;
 	}
 
-	void decrementFontSize() {
+	public void decrementFontSize() {
 		int currentFontSize = changeFontSize(-1);
 		fontSizeInPercentage = currentFontSize * 100 / baseFontSize;
 	}
