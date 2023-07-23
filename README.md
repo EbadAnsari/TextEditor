@@ -8,7 +8,11 @@
 
 ## How to run.
 
-### Run the following commands in the terminal.
+#### Run the application [`TextEditor.jar`](TextEditor.jar) directly on your PC without compiling the code.
+
+<hr />
+
+### Or run the following commands in the terminal.
 
 First current working directory to `src` directory:
 
