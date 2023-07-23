@@ -4,65 +4,67 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 
-public class TextEditorStatusBar {
+public class TextEditorStatusBar extends JPanel {
 
-	final JPanel textEditorStatusBar = new JPanel();
-	final JLabel textEditorLineInto = new JLabel("Line");
+	final JLabel textEditorLineInto = new JLabel("Ln 1, Col 1");
 	final JLabel textEditorZoomPercentage = new JLabel("100%");
 	final JLabel textEditorTemp = new JLabel("Window (CRLF)");
-	final JLabel textEditorCharset = new JLabel("UTF - 8");
+	final JLabel textEditorCharset = new JLabel("UTF-8");
+
+	final String textEditorStatusBarFontName = "Calibri";
+	final int textEditorStatusBarFontStyle = Font.BOLD;
 
 	void initStatusBar() {
-		textEditorStatusBar.setLayout(new GridLayout(1, 4));
-		textEditorStatusBar.setPreferredSize(new Dimension(0, 33));
-		textEditorStatusBar.setBackground(new Color(243, 243, 243));
-		textEditorStatusBar.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(230, 230, 230)));
+		this.setLayout(new GridLayout(1, 4));
+		this.setPreferredSize(new Dimension(0, 33));
+		this.setBackground(new Color(243, 243, 243));
+		this.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(230, 230, 230)));
 	}
 
 	void initLineInfo() {
 		textEditorLineInto.setForeground(new Color(92, 92, 92));
 		textEditorLineInto.setBorder(BorderFactory.createEmptyBorder(0, 23, 0, 0));
 		Font font = textEditorLineInto.getFont();
-		textEditorLineInto.setFont(font.deriveFont((float) (font.getSize() - 2)));
-		textEditorStatusBar.add(textEditorLineInto);
+		textEditorLineInto.setFont(new Font(textEditorStatusBarFontName, textEditorStatusBarFontStyle, font.getSize()));
+		this.add(textEditorLineInto);
 	}
 
 	void initZoomPercentage() {
 		textEditorZoomPercentage.setForeground(new Color(92, 92, 92));
 		textEditorZoomPercentage.setBorder(BorderFactory.createEmptyBorder(0, 23, 0, 0));
 		Font font = textEditorZoomPercentage.getFont();
-		textEditorZoomPercentage.setFont(font.deriveFont((float) (font.getSize() - 2)));
-		textEditorStatusBar.add(textEditorZoomPercentage);
+		textEditorZoomPercentage
+				.setFont(new Font(textEditorStatusBarFontName, textEditorStatusBarFontStyle, font.getSize()));
+		this.add(textEditorZoomPercentage);
 	}
 
 	void initTemp() {
 		textEditorTemp.setForeground(new Color(92, 92, 92));
 		textEditorTemp.setBorder(BorderFactory.createEmptyBorder(0, 23, 0, 0));
 		Font font = textEditorTemp.getFont();
-		textEditorTemp.setFont(font.deriveFont((float) (font.getSize() - 2)));
-		textEditorStatusBar.add(textEditorTemp);
+		textEditorTemp.setFont(new Font(textEditorStatusBarFontName, textEditorStatusBarFontStyle, font.getSize()));
+		this.add(textEditorTemp);
 	}
 
 	void initCharset() {
 		textEditorCharset.setForeground(new Color(92, 92, 92));
 		textEditorCharset.setBorder(BorderFactory.createEmptyBorder(0, 23, 0, 0));
 		Font font = textEditorCharset.getFont();
-		textEditorCharset.setFont(font.deriveFont((float) (font.getSize() - 2)));
-		textEditorStatusBar.add(textEditorCharset);
+		textEditorCharset.setFont(new Font(textEditorStatusBarFontName, textEditorStatusBarFontStyle, font.getSize()));
+		this.add(textEditorCharset);
 	}
 
 	public void setLineInfo(int lineNumber, int columnNumber) {
 		textEditorLineInto.setText("Ln " + lineNumber + ", Col " + columnNumber);
 	}
 
-	public void setZoomLevel(int zoomLevel) {
-		textEditorZoomPercentage.setText("" + zoomLevel + "%");
+	public void setZoomLevel(int zoomPercentage) {
+		textEditorZoomPercentage.setText("" + zoomPercentage + "%");
 	}
 
 	public void setCharacterSet(String characterSet) {
@@ -77,9 +79,4 @@ public class TextEditorStatusBar {
 		initTemp();
 		initCharset();
 	}
-
-	public JPanel getStatusBar() {
-		return textEditorStatusBar;
-	}
-
 }
