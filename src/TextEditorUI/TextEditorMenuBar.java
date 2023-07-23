@@ -2,18 +2,15 @@ package TextEditorUI;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.KeyStroke;
 
-import TextEditorClasses.MenuBar.MenuItem;
 import TextEditorClasses.MenuBar.Menu;
+import TextEditorClasses.MenuBar.MenuItem;
 
 public class TextEditorMenuBar extends JMenuBar {
 

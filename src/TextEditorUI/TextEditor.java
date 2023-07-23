@@ -15,13 +15,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.swing.KeyStroke;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 
-import TextEditorClasses.MenuBar.MenuItem;
 import TextEditorClasses.MenuBar.Menu;
+import TextEditorClasses.MenuBar.MenuItem;
 import TextEditorEvents.TextEditorFileHandlingEventListener;
 import TextEditorEvents.TextEditorTextAreaEvent;
 import TextEditorFileHandling.TextEditorFileHandling;

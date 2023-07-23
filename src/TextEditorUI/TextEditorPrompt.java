@@ -1,13 +1,7 @@
 package TextEditorUI;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 public class TextEditorPrompt extends JOptionPane {
 

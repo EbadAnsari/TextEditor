@@ -1,5 +1,12 @@
 package TextEditorFileHandling;
 
+import java.awt.FileDialog;
+import java.awt.Frame;
+import java.awt.HeadlessException;
+import java.awt.Toolkit;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,14 +15,6 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
-import java.util.regex.Pattern;
-import java.awt.Frame;
-import java.awt.HeadlessException;
-import java.awt.Toolkit;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.FileDialog;
 
 import TextEditorEvents.TextEditorFileHandlingEventListener;
 import TextEditorException.TextEditorFileHandlingException.UnknownFileExtensioException;
