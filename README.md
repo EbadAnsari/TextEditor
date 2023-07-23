@@ -19,5 +19,5 @@ cd src
 Then run the following command to delete all the `*.class` files and compile the `*.java` file to `*.class` file and run the class file.
 
 ```powershell
-cls;del ./**/*.class;javac App.java; if ($?) { java App; }
+cls;del ./**/*.class;del ./*.class;javac App.java; if ($?) { java App; }
 ```
