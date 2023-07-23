@@ -9,6 +9,11 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import java.awt.Frame;
+import java.awt.HeadlessException;
+import java.awt.Toolkit;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.FileDialog;
 
 import TextEditorEvents.TextEditorFileHandlingEvent;
@@ -20,6 +25,15 @@ public class TextEditorFileHandling {
 	String fileNameForDisplay = "Untitled";
 	String fileNameWithFullPath = "";
 	boolean isSaved = true;
+
+	public String getTextFromClipBoard() throws HeadlessException, UnsupportedFlavorException, IOException {
+		return (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
+	}
+
+	public void setTextToClipBoard(String textToClipBoard) {
+		StringSelection stringToInsert = new StringSelection(textToClipBoard);
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringToInsert, stringToInsert);
+	}
 
 	/**
 	 * @param isSaved the isSaved to set

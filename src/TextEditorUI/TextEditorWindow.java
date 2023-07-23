@@ -17,7 +17,7 @@ public class TextEditorWindow extends JFrame {
     public TextEditorWindow(String titleText) {
         this.setTitle(titleText);
         this.setSize(400, 400);
-        // this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.setResizable(true);
         this.setMinimumSize(new Dimension(400, 238));
         this.setLayout(new BorderLayout());

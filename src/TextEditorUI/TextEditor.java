@@ -1,28 +1,25 @@
 package TextEditorUI;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.HeadlessException;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.SimpleAttributeSet;
 
 import TextEditorClasses.MenuItem;
-import TextEditorFileHandling.TextEditorFileHandling;
-
 import TextEditorEvents.TextEditorFileHandlingEvent;
 import TextEditorEvents.TextEditorTextAreaEvent;
+import TextEditorFileHandling.TextEditorFileHandling;
 
 public class TextEditor implements ActionListener {
 
@@ -44,17 +41,23 @@ public class TextEditor implements ActionListener {
 		this.textEditorWindow.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent event) {
-				if (!textEditorFileHandling.isSaved()
-						&& TextEditorPrompt.fileNotSavedDialog(textEditorWindow) == TextEditorPrompt.YES_OPTION) {
-					try {
-						textEditorFileHandling.save();
-					} catch (IOException error) {
-						error.printStackTrace();
+				if (!textEditorFileHandling.isSaved()) {
+					int result = TextEditorPrompt.fileNotSavedDialog(textEditorWindow);
+					if (result == TextEditorPrompt.YES_OPTION) {
+						try {
+							textEditorFileHandling.save();
+						} catch (IOException error) {
+							error.printStackTrace();
+						}
+					} else if (result == TextEditorPrompt.CANCEL_OPTION || result == TextEditorPrompt.CLOSED_OPTION) {
+						System.out.println(result);
+						return;
 					}
 				}
 				System.exit(0);
 			}
 		});
+
 	}
 
 	void createFileMenu() {
@@ -91,6 +94,30 @@ public class TextEditor implements ActionListener {
 							System.out.println("File not found, during save.");
 						} catch (IOException e) {
 							System.out.println("Something went wrong");
+						}
+					}
+				}));
+	}
+
+	void createEditMenu() {
+		textEditorMenuBar.addMenuItems("Edit",
+				new MenuItem("Copy", KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.VK_CONTROL), new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						textEditorFileHandling.setTextToClipBoard(textEditorTextArea.getSelectedText());
+					}
+				}));
+
+		textEditorMenuBar.addMenuItems("Edit",
+				new MenuItem("Paste", KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.VK_CONTROL), new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent event) {
+						try {
+							textEditorTextArea.getDocument().insertString(textEditorTextArea.getCaretPosition(),
+									textEditorFileHandling.getTextFromClipBoard(), SimpleAttributeSet.EMPTY);
+						} catch (HeadlessException | UnsupportedFlavorException | IOException
+								| BadLocationException error) {
+							error.printStackTrace();
 						}
 					}
 				}));
@@ -172,7 +199,11 @@ public class TextEditor implements ActionListener {
 	public TextEditor() {
 
 		this.textEditorMenuBar.addMenus("File", "Edit");
+
+		// Adding menus to menubar
 		this.createFileMenu();
+		this.createEditMenu();
+
 		this.createTextEditorArea();
 		this.createTextEditorAreaPanel();
 		this.createFileHandling();

@@ -16,9 +16,6 @@ import TextEditorEvents.TextEditorTextAreaEvent;
 
 public class TextEditorTextArea extends JTextArea {
 
-	// protected final JTextArea this = new JTextArea("adasdas\nadasdasdf");
-	// protected final JPanel textAreaPanel = new JPanel();
-
 	JScrollPane textAreaScrollBar = new JScrollPane(this);
 	boolean isDefaultFontSize = true;
 	int fontSizeInPercentage = 100;
@@ -100,7 +97,6 @@ public class TextEditorTextArea extends JTextArea {
 		this.setLineWrap(true);
 		this.setWrapStyleWord(true);
 		this.defaultFontSize();
-		// changeFontSize(50);
 
 		this.getDocument().addDocumentListener(new DocumentListener() {
 
@@ -161,7 +157,6 @@ public class TextEditorTextArea extends JTextArea {
 
 			@Override
 			public void keyTyped(KeyEvent e) {
-				// this.event.onKeyDown(e);
 			}
 		});
 	}
