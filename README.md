@@ -28,3 +28,7 @@ Then run the following command to delete all the `*.class` files and compile the
 ```powershell
 cls;del ./**/*.class;del ./*.class;javac App.java; if ($?) { java App; }
 ```
+
+### Text Editor Image :
+
+<img src="text-editor-image.png" width="450" alt="Text Editor Image" />
