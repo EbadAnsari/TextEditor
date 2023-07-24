@@ -13,7 +13,7 @@ public class TextEditorWindow extends JFrame {
         this.setSize(400, 400);
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.setResizable(true);
-        this.setMinimumSize(new Dimension(400, 238));
+        this.setMinimumSize(new Dimension(400, 400));
         this.setLayout(new BorderLayout());
     }
 }
