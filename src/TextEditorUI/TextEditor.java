@@ -5,6 +5,7 @@ import java.awt.HeadlessException;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
@@ -14,6 +15,7 @@ import java.awt.print.PrinterJob;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
@@ -46,13 +48,13 @@ public class TextEditor implements ActionListener {
 			public void windowClosing(WindowEvent event) {
 				if (!textEditorFileHandling.isSaved()) {
 					int result = TextEditorPrompt.fileNotSavedDialog(textEditorWindow);
-					if (result == TextEditorPrompt.YES_OPTION) {
+					if (result == JOptionPane.YES_OPTION) {
 						try {
 							textEditorFileHandling.save();
 						} catch (IOException error) {
 							System.out.println("File not saved.");
 						}
-					} else if (result == TextEditorPrompt.CANCEL_OPTION || result == TextEditorPrompt.CLOSED_OPTION) {
+					} else if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION) {
 						return;
 					}
 				}
@@ -64,7 +66,7 @@ public class TextEditor implements ActionListener {
 
 	void createFileMenu() {
 		textEditorMenuBar.addMenuItems("File",
-				new MenuItem("New", KeyEvent.VK_N, KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK),
+				new MenuItem("New", KeyEvent.VK_N, KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK),
 						new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent event) {
@@ -76,7 +78,7 @@ public class TextEditor implements ActionListener {
 						}));
 
 		textEditorMenuBar.addMenuItems("File",
-				new MenuItem("Open", KeyEvent.VK_O, KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK),
+				new MenuItem("Open", KeyEvent.VK_O, KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK),
 						new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent event) {
@@ -89,7 +91,7 @@ public class TextEditor implements ActionListener {
 						}));
 
 		textEditorMenuBar.addMenuItems("File",
-				new MenuItem("Save", KeyEvent.VK_S, KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK),
+				new MenuItem("Save", KeyEvent.VK_S, KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK),
 						new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent event) {
@@ -104,7 +106,7 @@ public class TextEditor implements ActionListener {
 						}));
 
 		textEditorMenuBar.addMenuItems("File",
-				new MenuItem("Print", KeyEvent.VK_P, KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK),
+				new MenuItem("Print", KeyEvent.VK_P, KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK),
 						new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent event) {
@@ -122,16 +124,44 @@ public class TextEditor implements ActionListener {
 
 	void createEditMenu() {
 		textEditorMenuBar.addMenuItems("Edit",
-				new MenuItem("Copy", KeyEvent.VK_C, KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK),
+				new MenuItem("Cut", KeyEvent.VK_X, KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK),
 						new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								textEditorFileHandling.setTextToClipBoard(textEditorTextArea.getSelectedText());
+								int selectionStart = textEditorTextArea.getSelectionStart();
+								int selectionEnd = textEditorTextArea.getSelectionEnd();
+								int selectedLength = selectionEnd - selectionStart;
+
+								try {
+									String cuttedText = textEditorTextArea.getText(selectionStart,
+											selectedLength);
+
+									if (cuttedText.length() > 0) {
+										textEditorFileHandling.setTextToClipBoard(cuttedText);
+									}
+
+									textEditorTextArea.setText(new StringBuilder(textEditorTextArea.getText())
+											.delete(selectionStart, selectionEnd).toString());
+								} catch (BadLocationException e1) {
+									System.out.println("Unable to cut.");
+								}
 							}
 						}));
 
 		textEditorMenuBar.addMenuItems("Edit",
-				new MenuItem("Paste", KeyEvent.VK_P, KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK),
+				new MenuItem("Copy", KeyEvent.VK_C, KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK),
+						new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								String selectedText = textEditorTextArea.getSelectedText();
+								if (selectedText.length() > 0) {
+									textEditorFileHandling.setTextToClipBoard(selectedText);
+								}
+							}
+						}));
+
+		textEditorMenuBar.addMenuItems("Edit",
+				new MenuItem("Paste", KeyEvent.VK_P, KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK),
 						new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent event) {
