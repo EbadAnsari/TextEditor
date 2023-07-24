@@ -43,8 +43,11 @@ public class TextEditorFileHandling {
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringToInsert, stringToInsert);
 	}
 
-	String getCharSet(File file) throws FileNotFoundException {
-		return new InputStreamReader(new FileInputStream(file)).getEncoding();
+	String getCharSet(File file) throws IOException {
+		InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(file));
+		String result = inputStreamReader.getEncoding();
+		inputStreamReader.close();
+		return result;
 	}
 
 	/**
@@ -151,7 +154,7 @@ public class TextEditorFileHandling {
 		this.event.onSave(this);
 	}
 
-	public void open() throws FileNotFoundException {
+	public void open() throws IOException {
 		File fileReader = openFileDialog();
 
 		if (fileReader == null)
@@ -172,7 +175,6 @@ public class TextEditorFileHandling {
 				this.fileNameWithFullPath = fileReader.getAbsolutePath();
 				this.fileNameForDisplay = fileReader.getName();
 			}
-			// System.out.println(Pattern.compile("\r\n").matcher(this.textEditorFileText.toString()));
 			isSaved = true;
 			this.event.onFileLoad(this);
 		} catch (FileNotFoundException e) {

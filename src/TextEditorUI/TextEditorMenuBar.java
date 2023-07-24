@@ -59,17 +59,7 @@ public class TextEditorMenuBar extends JMenuBar {
 			menuList.get(menuList.size() - 1).setPreferredSize(new Dimension(60, 10));
 			menuList.get(menuList.size() - 1).setForeground(new Color(92, 92, 92));
 			menuList.get(menuList.size() - 1).setMnemonic(mnemonic);
-			// menuList.get(menuList.size() - 1).addMouseListener(new MouseAdapter() {
-			// @Override
-			// public void mouseEntered(MouseEvent e) {
-			// menuList.get(menuList.size() - 1).setForeground(new Color(92, 92, 92, 200));
-			// }
 
-			// @Override
-			// public void mouseExited(MouseEvent e) {
-			// menuList.get(menuList.size() - 1).setForeground(new Color(92, 92, 92));
-			// }
-			// });
 			this.add(menuList.get(menuList.size() - 1));
 		}
 	}

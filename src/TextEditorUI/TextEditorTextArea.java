@@ -19,7 +19,7 @@ public class TextEditorTextArea extends JTextArea {
 	JScrollPane textAreaScrollBar = new JScrollPane(this);
 	boolean isDefaultFontSize = true;
 	int fontSizeInPercentage = 100;
-	final int baseFontSize = 16;
+	int baseFontSize = 16;
 
 	private transient TextEditorTextAreaEvent event = new TextEditorTextAreaEvent() {
 		@Override

@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -21,8 +20,8 @@ public class TextEditorStatusBar extends JPanel {
 	final JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
 	final JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 30, 10));
 
-	final String textEditorStatusBarFontName = "Calibri";
-	final int textEditorStatusBarFontStyle = Font.BOLD;
+	String textEditorStatusBarFontName = "Calibri";
+	int textEditorStatusBarFontStyle = Font.BOLD;
 
 	void initStatusBar() {
 		this.setLayout(new BorderLayout());

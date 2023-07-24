@@ -84,7 +84,7 @@ public class TextEditor implements ActionListener {
 							public void actionPerformed(ActionEvent event) {
 								try {
 									textEditorFileHandling.open();
-								} catch (FileNotFoundException e) {
+								} catch (IOException e) {
 									System.out.println("File not found.");
 								}
 							}
