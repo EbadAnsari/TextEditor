@@ -5,6 +5,9 @@
     -   Editing text in file.
     -   Save text into file.
     -   Open existing file or create new one.
+    -   Provide facility of printing the document.
+    -   It gives the information about the type of encoding applied on the document.
+    -   Can load file upto 20 MB.
 
 ## How to run.
 
