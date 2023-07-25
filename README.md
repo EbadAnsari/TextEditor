@@ -11,7 +11,7 @@
 
 ## How to run.
 
-#### Run the application [`TextEditor.jar`](TextEditor.jar) directly on your PC without compiling the code.
+**Run the application [`TextEditor.jar`](TextEditor.jar) directly on your PC without compiling the code.**
 
 <hr />
 
