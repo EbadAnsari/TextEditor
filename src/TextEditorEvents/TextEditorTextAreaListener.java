@@ -1,5 +1,5 @@
 package TextEditorEvents;
 
-public interface TextEditorTextAreaEvent {
+public interface TextEditorTextAreaListener {
     void onZoom(int zoomLevel);
 }

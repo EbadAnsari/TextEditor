@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -12,7 +14,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 
-import TextEditorEvents.TextEditorTextAreaEvent;
+import TextEditorEvents.TextEditorTextAreaListener;
 
 public class TextEditorTextArea extends JTextArea {
 
@@ -21,7 +23,7 @@ public class TextEditorTextArea extends JTextArea {
 	int fontSizeInPercentage = 100;
 	int baseFontSize = 16;
 
-	private transient TextEditorTextAreaEvent event = new TextEditorTextAreaEvent() {
+	private transient TextEditorTextAreaListener event = new TextEditorTextAreaListener() {
 		@Override
 		public void onZoom(int zoomLevel) {
 		}
@@ -129,12 +131,14 @@ public class TextEditorTextArea extends JTextArea {
 
 			@Override
 			public void keyPressed(KeyEvent event) {
-				if (event.isControlDown() && event.getKeyChar() == '=') {
-					incrementFontSize();
-				} else if (event.isControlDown() && event.getKeyChar() == '-') {
-					decrementFontSize();
-				} else if (event.isControlDown() && event.getKeyChar() == '0') {
-					defaultFontSize();
+				if (event.isControlDown()) {
+					if (event.getKeyChar() == '=') {
+						incrementFontSize();
+					} else if (event.getKeyChar() == '-') {
+						decrementFontSize();
+					} else if (event.getKeyChar() == '0') {
+						defaultFontSize();
+					}
 				}
 
 				try {
@@ -159,6 +163,27 @@ public class TextEditorTextArea extends JTextArea {
 			public void keyTyped(KeyEvent e) {
 			}
 		});
+
+		this.addMouseWheelListener(new MouseWheelListener() {
+
+			boolean scrollDirection() {
+				return true;
+			}
+
+			@Override
+			public void mouseWheelMoved(MouseWheelEvent event) {
+				if (event.isControlDown()) {
+					if (event.getUnitsToScroll() < 0) {
+						// scroll down
+						incrementFontSize();
+					} else if (event.getUnitsToScroll() > 0) {
+						// scroll up
+						decrementFontSize();
+					}
+				}
+			}
+
+		});
 	}
 
 	void initTextAreaPanel() {
@@ -175,12 +200,12 @@ public class TextEditorTextArea extends JTextArea {
 		initTextAreaPanel();
 	}
 
-	public void addEvent(TextEditorTextAreaEvent event) {
+	public void addEvent(TextEditorTextAreaListener event) {
 		this.event = event;
 	}
 
 	public void removeEvent() {
-		this.event = new TextEditorTextAreaEvent() {
+		this.event = new TextEditorTextAreaListener() {
 			@Override
 			public void onZoom(int zoomLevel) {
 			}

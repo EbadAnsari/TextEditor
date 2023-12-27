@@ -10,6 +10,6 @@ public class App {
 
 		TextEditor textEditor = new TextEditor();
 
-		textEditor.visible();
+		textEditor.run();
 	}
 }

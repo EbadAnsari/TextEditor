@@ -23,9 +23,13 @@ import javax.swing.text.SimpleAttributeSet;
 import TextEditorClasses.MenuBar.Menu;
 import TextEditorClasses.MenuBar.MenuItem;
 import TextEditorEvents.TextEditorFileHandlingEventListener;
-import TextEditorEvents.TextEditorTextAreaEvent;
+import TextEditorEvents.TextEditorTextAreaListener;
 import TextEditorFileHandling.TextEditorFileHandling;
 
+/**
+ * @see TextEditorTextAreaListener
+ * @see TextEditorFileHandlingEventListener
+ */
 public class TextEditor implements ActionListener {
 
 	final TextEditorFileHandling textEditorFileHandling = new TextEditorFileHandling();
@@ -34,6 +38,7 @@ public class TextEditor implements ActionListener {
 	final TextEditorMenuBar textEditorMenuBar = new TextEditorMenuBar();
 	final TextEditorAreaPanel textEditorAreaPanel = new TextEditorAreaPanel();
 	final TextEditorTextArea textEditorTextArea = new TextEditorTextArea();
+
 	final TextEditorStatusBar textEditorStatusBar = new TextEditorStatusBar();
 
 	String defaultFileName = "Untitled";
@@ -124,7 +129,7 @@ public class TextEditor implements ActionListener {
 
 	void createEditMenu() {
 		textEditorMenuBar.addMenuItems("Edit",
-				new MenuItem("Cut", KeyEvent.VK_X, KeyStroke.getKeyStroke(KeyEvent.VK_X, KeyEvent.CTRL_DOWN_MASK),
+				new MenuItem("Cut", KeyEvent.VK_X, KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_DOWN_MASK),
 						new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent e) {
@@ -149,7 +154,7 @@ public class TextEditor implements ActionListener {
 						}));
 
 		textEditorMenuBar.addMenuItems("Edit",
-				new MenuItem("Copy", KeyEvent.VK_C, KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK),
+				new MenuItem("Copy", KeyEvent.VK_C, KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK),
 						new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent e) {
@@ -161,7 +166,7 @@ public class TextEditor implements ActionListener {
 						}));
 
 		textEditorMenuBar.addMenuItems("Edit",
-				new MenuItem("Paste", KeyEvent.VK_P, KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.CTRL_DOWN_MASK),
+				new MenuItem("Paste", KeyEvent.VK_P, KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_DOWN_MASK),
 						new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent event) {
@@ -180,7 +185,7 @@ public class TextEditor implements ActionListener {
 	void createZoomMenu() {
 		textEditorMenuBar.addMenuItems("Zoom",
 				new MenuItem("Zoom in", KeyEvent.VK_I,
-						KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, KeyEvent.CTRL_DOWN_MASK),
+						KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, InputEvent.CTRL_DOWN_MASK),
 						new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent event) {
@@ -190,7 +195,7 @@ public class TextEditor implements ActionListener {
 
 		textEditorMenuBar.addMenuItems("Zoom",
 				new MenuItem("Zoom out", KeyEvent.VK_O,
-						KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, KeyEvent.CTRL_DOWN_MASK),
+						KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, InputEvent.CTRL_DOWN_MASK),
 						new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent event) {
@@ -200,7 +205,7 @@ public class TextEditor implements ActionListener {
 
 		textEditorMenuBar.addMenuItems("Zoom",
 				new MenuItem("100%", KeyEvent.VK_0,
-						KeyStroke.getKeyStroke(KeyEvent.VK_0, KeyEvent.CTRL_DOWN_MASK),
+						KeyStroke.getKeyStroke(KeyEvent.VK_0, InputEvent.CTRL_DOWN_MASK),
 						new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent event) {
@@ -214,6 +219,7 @@ public class TextEditor implements ActionListener {
 
 			@Override
 			public void beforeTextChange(TextEditorFileHandling event) {
+				// : This can be avoided.
 			}
 
 			@Override
@@ -265,7 +271,7 @@ public class TextEditor implements ActionListener {
 
 		});
 
-		this.textEditorTextArea.addEvent(new TextEditorTextAreaEvent() {
+		this.textEditorTextArea.addEvent(new TextEditorTextAreaListener() {
 
 			@Override
 			public void onZoom(int zoomLevel) {
@@ -304,12 +310,14 @@ public class TextEditor implements ActionListener {
 		this.addAllComponentInWindow();
 	}
 
-	public void visible() {
+	public void run() {
 		textEditorWindow.setVisible(true);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		// : This can be avoided.
+
 	}
 
 }
