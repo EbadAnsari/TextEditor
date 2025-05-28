@@ -23,6 +23,7 @@ javac TextEditor.java
 
 # Run the application
 java TextEditor
+```
 
 
 
